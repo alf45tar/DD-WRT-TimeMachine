@@ -23,7 +23,7 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
     - Plug your USB drive or external hard drive into the router’s USB port (USB3 port is better).
     - Go to **Services > USB** in the DD-WRT web interface.
       
-      Enable the following options:
+      **Enable** the following options:
         - *Core USB Support*
         - *USB Storage Support*
         - *Automatic Drive Mount*
@@ -59,10 +59,10 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
 6. Disable the built-in Samba server
    - Go to **Services > NAS** in the DD-WRT web interface.
 
-     Disable the following options:
+     **Disable** the following options:
         - *Samba Server > Samba Configuration > Enable Server*
           
-        ![Samba](images/Services-USB.jpg)
+        ![Samba](images/Services-NAS.jpg)
    
 8. Enable Samba 
 
