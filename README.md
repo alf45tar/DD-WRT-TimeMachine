@@ -30,7 +30,15 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
         - Copy and paste UUID from Disk Info to *Mount partition to /opt*
         - Apply the settings. Your drive should be automatically mounted.
      
-    ![USB](images/Services-USB.jpg)
+        ![USB](images/Services-USB.jpg)
+
+5. Disable the built-in Samba server
+   - Go to **Services > NAS** in the DD-WRT web interface.
+
+     **Disable** the following options:
+        - *Samba Server > Samba Configuration > Enable Server*
+          
+        ![Samba](images/Services-NAS.jpg)
 
 3. Connect to Your Router via Terminal
 
@@ -56,18 +64,69 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
    opkg update
    opkg upgrade
    ```
-6. Disable the built-in Samba server
-   - Go to **Services > NAS** in the DD-WRT web interface.
+6. Install required packages
+    ```
+    opkg install avahi-autoipd avahi-dbus-daemon avahi-dnsconfd avahi-utils
+    opkg install samba4-admin samba4-client samba4-libs samba4-server samba4-utils
+    ```
+8. Edit smb.conf
+   ```
+   [global]
+   # Fruit global config
+   fruit:aapl = yes
+   fruit:nfs_aces = no
+   fruit:copyfile = no
+   fruit:model = MacSamba
 
-     **Disable** the following options:
-        - *Samba Server > Samba Configuration > Enable Server*
-          
-        ![Samba](images/Services-NAS.jpg)
+   # Permissions on new files and directories are inherited from parent directory
+   inherit permissions = yes
+
+   # Change this to the workgroup/NT-domain name your Samba server will part of
+   workgroup = WORKGROUP
+   # Samba will automatically "register" the presence of its server to the rest of the network using mDNS.
+   # Since we are using avahi for this we can disable mdns registration.
+   multicast dns register = no
+
+   # Server string is the equivalent of the NT Description field
+   server string = %h server (Samba, DD-WRT)
+
+   # Protocol versions
+   client max protocol = default
+   client min protocol = SMB2_02
+   server max protocol = SMB3
+   server min protocol = SMB2_02
+
+   # This tells Samba to use a separate log file for each machine that connects
+   log file = /opt/var/log/samba/log.%m
+
+   # Cap the size of the individual log files (in KiB).
+   max log size = 1000
+
+   # We want Samba to only log to /var/log/samba/log.{smbd,nmbd}.
+   # Append syslog@1 if you want important messages to be sent to syslog too.
+   logging = file
+
+   #======================= Share Definitions =======================
+
+   [timemachine]
+   # Load in modules (order is critical!)
+   vfs objects = catia fruit streams_xattr
+   fruit:encoding = native
+   fruit:time machine = yes
+   comment = Time Machine Backup
+   path = /opt/timemachine
+   available = yes
+   valid users = timemachine
+   browseable = yes
+   guest ok = no
+   writable = yes
+   ```
    
-8. Enable Samba 
+10. Enable Samba
+11. 
 
 
-10. Add startup and shutdown script
+12. Add startup and shutdown script
 
     - Go to **Adminstration > Commands** in the DD-WRT web interface.
 
