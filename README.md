@@ -73,17 +73,30 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
 
     Add the following to **Startup**
     ```
+    #
+    # Add group and user for avahi server
     echo "nogroup:x:114:nobody" >> /etc/group
     echo "nobody:*:114:114:avahi:/opt/sbin/avahi-daemon:/bin/false" >> /etc/passwd
+    #
+    # Add group for Samba server
     echo "samba:x:1000:timemachine" >> /etc/group
     echo "timemachine:*:1001:1000:TimeMachine::/bin/false" >> /etc/passwd
+    #
+    # Wait until external storage i smounted under /opt
     /bin/sh -c 'until [ -f /opt/etc/init.d/rc.unslung ]; do sleep 1 ; done'
+    #
+    # Start all Entware services (Avahi, Samba)
     /opt/etc/init.d/rc.unslung start
+    #
+    # Set external storage sleep time to 15 minutes
     for i in /dev/sd?; do hdparm -S 180 $i > /dev/null; done
+    # 
     for f in /sys/class/scsi_disk/*; do echo 1 > $f/allow_restart; done
     ```
 
     Add  the following to **Shutdown**
     ```
+    #
+    # Stop all Entware services before shutdown
     /opt/etc/init.d/rc.unslung stop
     ```
