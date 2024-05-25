@@ -145,39 +145,44 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
    guest ok = no
    writable = yes
    ```
-
-9. Create `/opt/etc/avahi/services/samba.service` with
-   ```
-   <?xml version="1.0" standalone='no'?>
-   <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
-   <service-group>
-     <name replace-wildcards="yes">%h</name>
-     <service>
-       <type>_smb._tcp</type>
-       <port>445</port>
-     </service>
-     <service>
-       <type>_device-info._tcp</type>
-       <port>0</port>
-       <txt-record>model=TimeCapsule8,119</txt-record>
-     </service>
-     <service>
-       <type>_adisk._tcp</type>
-       <txt-record>dk0=adVN=timemachine,adVF=0x82</txt-record>
-       <txt-record>sys=waMa=0,adVF=0x100</txt-record>
-     </service>
-   </service-group>
-   ```
    
-10. Create the folder to store the TimeMachine backup
+9. Create the folder to save the TimeMachine backup
+   ```
+   cd /opt
+   mkdir timemachine
+   chown root:samba timemachine
+   chmod 770 timemachine
+   ```
+
+10. Set Samba password for user `timemachine`
     ```
-    cd /opt
-    mkdir timemachine
-    chown root.samba timemachine
-    chmod 770 timemachine
+    smbpasswd -a timemachine
+    ```
+
+11. Create `/opt/etc/avahi/services/samba.service` with
+    ```
+    <?xml version="1.0" standalone='no'?>
+    <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+    <service-group>
+      <name replace-wildcards="yes">%h</name>
+      <service>
+        <type>_smb._tcp</type>
+        <port>445</port>
+      </service>
+      <service>
+        <type>_device-info._tcp</type>
+        <port>0</port>
+        <txt-record>model=TimeCapsule8,119</txt-record>
+      </service>
+      <service>
+        <type>_adisk._tcp</type>
+        <txt-record>dk0=adVN=timemachine,adVF=0x82</txt-record>
+        <txt-record>sys=waMa=0,adVF=0x100</txt-record>
+      </service>
+    </service-group>
     ```
     
-11. Add startup and shutdown script
+12. Add startup and shutdown script
 
     - Go to **Adminstration > Commands** in the DD-WRT web interface.
 
