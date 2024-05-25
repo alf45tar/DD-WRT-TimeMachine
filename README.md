@@ -37,7 +37,8 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
    ```
    ssh 192.168.1.1 -l root
    ```
-
+    Enter `root` password when requested.
+   
 5. Intall Entware the ultimate repo for embedded devices
    
    [Entware](https://entware.net) is a software repository for embedded devices like routers or network attached storages. >1800 packages are available. It was founded as an alternative to very outdated Optware packages.
