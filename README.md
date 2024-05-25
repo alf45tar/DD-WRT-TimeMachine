@@ -89,11 +89,11 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
    opkg upgrade
    ```
 6. Install required packages
-    ```
-    opkg install avahi-autoipd avahi-dbus-daemon avahi-dnsconfd avahi-utils
-    opkg install samba4-admin samba4-client samba4-libs samba4-server samba4-utils
-    ```
-8. Edit smb.conf
+   ```
+   opkg install avahi-autoipd avahi-dbus-daemon avahi-dnsconfd avahi-utils
+   opkg install samba4-admin samba4-client samba4-libs samba4-server samba4-utils
+   ```
+8. Edit/replace `/opt/etc/samba/smb.conf` with
    ```
    [global]
    # Fruit global config
@@ -144,6 +144,28 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
    browseable = yes
    guest ok = no
    writable = yes
+   ```
+8. Create `/opt/etc/avahi/services/samba.service` with
+   ```
+   <?xml version="1.0" standalone='no'?>
+   <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+   <service-group>
+     <name replace-wildcards="yes">%h</name>
+     <service>
+       <type>_smb._tcp</type>
+       <port>445</port>
+     </service>
+     <service>
+       <type>_device-info._tcp</type>
+       <port>0</port>
+       <txt-record>model=TimeCapsule8,119</txt-record>
+     </service>
+     <service>
+       <type>_adisk._tcp</type>
+       <txt-record>dk0=adVN=timemachine,adVF=0x82</txt-record>
+       <txt-record>sys=waMa=0,adVF=0x100</txt-record>
+     </service>
+   </service-group>
    ```
    
 10. Enable Samba
