@@ -66,8 +66,24 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
    
 8. Enable Samba 
 
-If you want to use SMB/CIFS alongside AFP, you can enable Samba for Windows file sharing.
 
-Go to Services > NAS.
-Under Samba, enable the service and configure the shared path (e.g., /mnt).
-Set a shared name and configure user access.
+10. Add startup and shutdown script
+
+    - Go to **Adminstration > Commands** in the DD-WRT web interface.
+
+    Add the following to **Startup**
+    ```
+    echo "nogroup:x:114:nobody" >> /etc/group
+    echo "nobody:*:114:114:avahi:/opt/sbin/avahi-daemon:/bin/false" >> /etc/passwd
+    echo "samba:x:1000:timemachine" >> /etc/group
+    echo "timemachine:*:1001:1000:TimeMachine::/bin/false" >> /etc/passwd
+    /bin/sh -c 'until [ -f /opt/etc/init.d/rc.unslung ]; do sleep 1 ; done'
+    /opt/etc/init.d/rc.unslung start
+    for i in /dev/sd?; do hdparm -S 180 $i > /dev/null; done
+    for f in /sys/class/scsi_disk/*; do echo 1 > $f/allow_restart; done
+    ```
+
+    Add  the following to **Shutdown**
+    ```
+    /opt/etc/init.d/rc.unslung stop
+    ```
