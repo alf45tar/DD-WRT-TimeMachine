@@ -169,7 +169,15 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
    </service-group>
    ```
    
-10. Add startup and shutdown script
+10. Create the folder to store the TimeMachine backup
+    ```
+    cd /opt
+    mkdir timemachine
+    chown root.samba timemachine
+    chmod 770 timemachine
+    ```
+    
+11. Add startup and shutdown script
 
     - Go to **Adminstration > Commands** in the DD-WRT web interface.
 
