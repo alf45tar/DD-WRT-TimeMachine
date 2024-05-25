@@ -4,25 +4,32 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
 
 ## Prerequisites
 
-- DD-WRT firmware installed: Ensure your router has DD-WRT installed. You can find the firmware and installation instructions on the DD-WRT website.
+- **DD-WRT firmware installed:** Ensure your router has DD-WRT installed. You can find the firmware and installation instructions on the DD-WRT website.
 - **External storage device:** You’ll need a USB drive or an external hard drive to connect to your router.
-- Basic networking knowledge: Familiarity with DD-WRT and basic networking concepts.
+- **Basic networking knowledge:** Familiarity with DD-WRT and basic networking concepts.
 
 ## Step-by-Step Instructions
 
-1. Connect to Your Router
+1. Partition and format an external hard drive
+    - The process is out of the scope of this tutorial because there are already a lot of information available on internet.
+    - In the following we are using a single EXT4 partition but it should work also with exFAT.
+      
+3. Connect to Your Router
     - Access your DD-WRT router’s web interface by entering the router's IP address (usually 192.168.1.1) in your web browser.
     - Log in with your admin username and password.
 
-2. Connect and Mount the External Storage
+4. Connect and Mount the External Storage
 
     - Plug your USB drive or external hard drive into the router’s USB port (USB3 port is better).
     - Go to **Services > USB** in the DD-WRT web interface.
       Enable the following options:
-        - Core USB Support
-        - USB Storage Support
-        - Automatic Drive Mount
-        - Apply the settings. Your drive should be automatically mounted. Note the mount point (usually /mnt).
+        - *Core USB Support*
+        - *USB Storage Support*
+        - *Automatic Drive Mount*
+        - Copy and paste UUID from Disk Info to *Mount partition to /opt*
+        - Apply the settings. Your drive should be automatically mounted.
+     
+    ![USB](images/Services-USB.jpg)
 
 3. Connect to Your Router via Terminal
 
