@@ -33,11 +33,17 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
 
 3. Connect to Your Router via Terminal
 
-    >ssh 192.168.1.1 -l root
+   On macOS open a Terminal and run:
+   ```
+   ssh 192.168.1.1 -l root
+   ```
 
-4. Intall Entware the ultimate repo for embedded devices
+5. Intall Entware the ultimate repo for embedded devices
    
    [Entware](https://entware.net) is a software repository for embedded devices like routers or network attached storages. >1800 packages are available. It was founded as an alternative to very outdated Optware packages.
+   List of Entware packages for ARMv7 is [here](http://bin.entware.net/armv7sf-k3.2/Packages.html).
+
+   Type in the following commands:
    ```
    cd /opt
    wget http://bin.entware.net/armv7sf-k3.2/installer/generic.sh
