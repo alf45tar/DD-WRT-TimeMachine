@@ -46,7 +46,31 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
    ```
    ssh 192.168.1.1 -l root
    ```
-    Enter `root` password when requested.
+   Enter `root` password when requested.
+   ```
+   alf45tar@alf45tar-iMac ~ % ssh 192.168.1.1 -l root
+   DD-WRT v3.0-r56182 std (c) 2024 NewMedia-NET GmbH
+   Release: 05/02/24
+   Board: TP-Link Archer C9
+   root@192.168.1.1's password: 
+   ==========================================================
+ 
+         ___  ___     _      _____  ______       ____  ___ 
+        / _ \/ _ \___| | /| / / _ \/_  __/ _  __|_  / / _ \
+       / // / // /___/ |/ |/ / , _/ / /   | |/ //_ <_/ // /
+      /____/____/    |__/|__/_/|_| /_/    |___/____(_)___/ 
+                                                     
+                           DD-WRT v3.0
+                       https://www.dd-wrt.com
+
+
+    ==========================================================
+
+
+    BusyBox v1.36.1 (2024-05-02 04:40:12 +07) built-in shell (ash)
+
+    root@TimeCapsule:~#
+    ```
    
 5. Intall Entware the ultimate repo for embedded devices
    
