@@ -12,7 +12,7 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
 
 1. Partition and format an external hard drive
     - The process is out of the scope of this tutorial because there are already a lot of information available on internet.
-    - In the following we are using a single EXT4 partition but it should work also with exFAT.
+    - In the following we are using a single EXT4 partition.
       
 2. Connect to Your Router
     - Access your DD-WRT router’s web interface by entering the router's IP address (usually 192.168.1.1) in your web browser.
