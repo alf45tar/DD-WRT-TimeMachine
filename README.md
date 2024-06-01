@@ -29,20 +29,21 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
         - Copy and paste UUID from Disk Info to *Mount partition to /opt*
         - **Save**
         - **Apply Settings**
-   -  Go to **Administration > Managment** 
+   -  Go to **Administration > Managment**
         - **Reboot Router** and your drive should be automatically mounted on `/opt`
      
         ![USB](images/Services-USB.jpg)
 
 4. Disable the built-in Samba server
-   - Go to **Services > NAS** in the DD-WRT web interface.
 
-     **Disable** the following options:
-        - *Samba Server > Samba Configuration > Enable Server*
+   The built-in Samba Server cannot be used because it is not possible to configure as required.
+   
+   - Go to **Services > NAS** in the DD-WRT web interface.
+       - Disable *Samba Server > Samba Configuration > Enable Server*
           
         ![Samba](images/Services-NAS.jpg)
 
-5. Connect to Your Router via Terminal
+6. Connect to Your Router via Terminal
 
    On macOS open a Terminal and run:
    ```
@@ -74,7 +75,7 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
     root@TimeCapsule:~#
     ```
    
-6. Intall Entware the ultimate repo for embedded devices
+7. Intall Entware the ultimate repo for embedded devices
    
    [Entware](https://entware.net) is a software repository for embedded devices like routers or network attached storages. >1800 packages are available. It was founded as an alternative to very outdated Optware packages.
    List of Entware packages for ARMv7 is [here](http://bin.entware.net/armv7sf-k3.2/Packages.html).
@@ -90,12 +91,12 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
    opkg update
    opkg upgrade
    ```
-7. Install required packages
+8. Install required packages
    ```
    opkg install avahi-autoipd avahi-dbus-daemon avahi-dnsconfd avahi-utils
    opkg install samba4-admin samba4-client samba4-libs samba4-server samba4-utils
    ```
-8. Edit/replace `/opt/etc/samba/smb.conf` with
+9. Edit/replace `/opt/etc/samba/smb.conf` with
    ```
    [global]
    # Fruit global config
@@ -148,7 +149,7 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
    writable = yes
    ```
    
-9. Create the folder to save the TimeMachine backup
+10. Create the folder to save the TimeMachine backup
    ```
    cd /opt
    mkdir timemachine
@@ -156,12 +157,12 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
    chmod 770 timemachine
    ```
 
-10. Set Samba password for user `timemachine`
+11. Set Samba password for user `timemachine`
     ```
     smbpasswd -a timemachine
     ```
 
-11. Create `/opt/etc/avahi/services/samba.service` with
+12. Create `/opt/etc/avahi/services/samba.service` with
     ```
     <?xml version="1.0" standalone='no'?>
     <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
@@ -184,7 +185,7 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
     </service-group>
     ```
     
-12. Add startup and shutdown script
+13. Add startup and shutdown script
 
     - Go to **Adminstration > Commands** in the DD-WRT web interface.
 
