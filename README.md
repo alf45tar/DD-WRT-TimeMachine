@@ -22,13 +22,14 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
 
     - Plug your USB drive or external hard drive into the router’s USB port (USB3 port is better).
     - Go to **Services > USB** in the DD-WRT web interface.
-      
-      **Enable** the following options:
-        - *Core USB Support*
-        - *USB Storage Support*
-        - *Automatic Drive Mount*
+        - Enable *Core USB Support*
+        - Enable *USB Storage Support*
+        - Enable *Automatic Drive Mount*
+        - **Apply Settings** and the disk will be temporary mounted on `/tmp/mnt/sda1`
         - Copy and paste UUID from Disk Info to *Mount partition to /opt*
-        - Apply the settings. Your drive should be automatically mounted.
+        - **Save**
+        - **Apply Settings**
+        - Reboot your router and your drive should be automatically mounted on `/opt`
      
         ![USB](images/Services-USB.jpg)
 
