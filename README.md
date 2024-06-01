@@ -29,7 +29,8 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
         - Copy and paste UUID from Disk Info to *Mount partition to /opt*
         - **Save**
         - **Apply Settings**
-        - Reboot your router and your drive should be automatically mounted on `/opt`
+   -  - Go to **Administration > Managment** 
+        - **Reboot Router** and your drive should be automatically mounted on `/opt`
      
         ![USB](images/Services-USB.jpg)
 
