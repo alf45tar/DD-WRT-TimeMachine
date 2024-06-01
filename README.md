@@ -47,11 +47,11 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
 
    On macOS open a Terminal and run:
    ```
-   ssh 192.168.1.1 -l root
+   ssh root@192.168.1.1
    ```
    Enter `root` password when requested.
    ```
-   alf45tar@alf45tar-iMac ~ % ssh 192.168.1.1 -l root
+   alf45tar@alf45tar-iMac ~ % ssh root@192.168.1.1
    DD-WRT v3.0-r56182 std (c) 2024 NewMedia-NET GmbH
    Release: 05/02/24
    Board: TP-Link Archer C9
