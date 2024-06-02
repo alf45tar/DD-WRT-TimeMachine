@@ -148,21 +148,8 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
    guest ok = no
    writable = yes
    ```
-   
-10. Create the folder to save the TimeMachine backup
-   ```
-   cd /opt
-   mkdir timemachine
-   chown root:samba timemachine
-   chmod 770 timemachine
-   ```
 
-11. Set Samba password for user `timemachine`
-    ```
-    smbpasswd -a timemachine
-    ```
-
-12. Create `/opt/etc/avahi/services/samba.service` with
+10. Create `/opt/etc/avahi/services/samba.service` with
     ```
     <?xml version="1.0" standalone='no'?>
     <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
@@ -185,28 +172,50 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
     </service-group>
     ```
     
-13. Add startup and shutdown script
+11. Run the following commands to temporary add groups and users to run Entware services (Avahi, Samba)
+    ```
+    echo "nogroup:x:114:nobody" >> /etc/group
+    echo "nobody:*:114:114:avahi:/opt/sbin/avahi-daemon:/bin/false" >> /etc/passwd
+    echo "samba:x:1000:timemachine" >> /etc/group
+    echo "timemachine:*:1001:1000:TimeMachine::/bin/false" >> /etc/passwd
+    /opt/etc/init.d/rc.unslung start
+    ```
+    
+12. Create the folder to save the TimeMachine backups 
+    ```
+    cd /opt
+    mkdir timemachine
+    chown root:samba timemachine
+    chmod 770 timemachine
+    ```
+
+13. Set Samba password for user `timemachine`
+    ```
+    smbpasswd -a timemachine
+    ```
+   
+14. Add startup and shutdown script
 
     - Go to **Adminstration > Commands** in the DD-WRT web interface.
 
     Add the following to **Startup**
     ```
     #
-    # Add group and user for avahi server
+    # Add group and user for Avahi server
     #
     echo "nogroup:x:114:nobody" >> /etc/group
     echo "nobody:*:114:114:avahi:/opt/sbin/avahi-daemon:/bin/false" >> /etc/passwd
     #
-    # Add group for Samba server
+    # Add group and user for Samba server
     #
     echo "samba:x:1000:timemachine" >> /etc/group
     echo "timemachine:*:1001:1000:TimeMachine::/bin/false" >> /etc/passwd
     #
-    # Wait until external storage i smounted under /opt
+    # Wait until external storage is mounted under /opt
     #
     /bin/sh -c 'until [ -f /opt/etc/init.d/rc.unslung ]; do sleep 1 ; done'
     #
-    # Start all Entware services (Avahi, Samba)
+    # Start all Entware services (Avahi, Samba, ...)
     #
     /opt/etc/init.d/rc.unslung start
     #
@@ -222,3 +231,4 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
     #
     /opt/etc/init.d/rc.unslung stop
     ```
+    
