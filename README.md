@@ -197,43 +197,43 @@ To set up Time Machine on a DD-WRT capable router, you'll need to configure the 
     ```
     `timemachine` user and password are your credentials to be used to connect to remote location for TimeMachine backups. 
    
-13. Add startup and shutdown script
+13. Add startup and shutdown scripts
 
     - Go to **Adminstration > Commands** in the DD-WRT web interface.
 
-    Add the following to **Startup**
-    ```
-    #
-    # Add group and user for Avahi server
-    #
-    echo "nogroup:x:114:nobody" >> /etc/group
-    echo "nobody:*:114:114:avahi:/opt/sbin/avahi-daemon:/bin/false" >> /etc/passwd
-    #
-    # Add group and user for Samba server
-    #
-    echo "samba:x:1000:timemachine" >> /etc/group
-    echo "timemachine:*:1001:1000:TimeMachine::/bin/false" >> /etc/passwd
-    #
-    # Wait until external storage is mounted under /opt
-    #
-    /bin/sh -c 'until [ -f /opt/etc/init.d/rc.unslung ]; do sleep 1 ; done'
-    #
-    # Start all Entware services (Avahi, Samba, ...)
-    #
-    /opt/etc/init.d/rc.unslung start
-    #
-    # Set external storage sleep time to 15 minutes
-    #
-    for i in /dev/sd?; do hdparm -S 180 $i > /dev/null; done
-    ```
+        Add the following to **Startup**
+        ```
+        #
+        # Add group and user for Avahi server
+        #
+        echo "nogroup:x:114:nobody" >> /etc/group
+        echo "nobody:*:114:114:avahi:/opt/sbin/avahi-daemon:/bin/false" >> /etc/passwd
+        #
+        # Add group and user for Samba server
+        #
+        echo "samba:x:1000:timemachine" >> /etc/group
+        echo "timemachine:*:1001:1000:TimeMachine::/bin/false" >> /etc/passwd
+        #
+        # Wait until external storage is mounted under /opt
+        #
+        /bin/sh -c 'until [ -f /opt/etc/init.d/rc.unslung ]; do sleep 1 ; done'
+        #
+        # Start all Entware services (Avahi, Samba, ...)
+        #
+        /opt/etc/init.d/rc.unslung start
+        #
+        # Set external storage sleep time to 15 minutes
+        #
+        for i in /dev/sd?; do hdparm -S 180 $i > /dev/null; done
+        ```
 
-    Add  the following to **Shutdown**
-    ```
-    #
-    # Stop all Entware services before shutdown
-    #
-    /opt/etc/init.d/rc.unslung stop
-    ```
+        Add  the following to **Shutdown**
+        ```
+        #
+        # Stop all Entware services before shutdown
+        #
+        /opt/etc/init.d/rc.unslung stop
+        ```
 
 14. Reboot your Router for the last time
     -  Go to **Administration > Managment**
